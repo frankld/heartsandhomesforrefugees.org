@@ -1,0 +1,11 @@
+{% load mezzanine_tags i18n %}
+<form action="{% url "search" %}" class="form-inline ml-4 my-2 my-lg-0" role="search">
+
+<div class="form-group">
+    <input class="form-control rounded-pill" placeholder="{% trans "Search" %}" type="text" name="q" value="{{ request.GET.q }}">
+</div>
+
+
+<!-- <input type="submit" class="btn btn-primary ml-2" value="{% trans "Go" %}"> -->
+
+</form>

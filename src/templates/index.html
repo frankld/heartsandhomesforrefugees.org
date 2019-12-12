@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n staticfiles %}
 
 {% block body_id %}liberty-background{% endblock %}
 
@@ -10,20 +10,45 @@
 {% endblock %}
 
 {% block main %}
-  <blockquote>
-    <p>{% blocktrans %}
-      Give me your tired, your poor,<br />
-      Your huddled masses yearning to breathe free,<br />
-      The wretched refuse of your teeming shore.<br />
-      Send these, the homeless, tempest-tossed, to me:<br />
-      I lift my lamp beside the golden door.
-    {% endblocktrans %}</p>
-    <footer><cite>Emma Lazarus</cite></footer>
-  </blockquote>
+
+
   <div class="description">
-    {{ settings.intro|safe|linebreaks }}
+    {{ settings.intro }}
     <p><em>
-      {{ settings.disclaimer|safe }}
+        {{ settings.disclaimer | safe }}
     </em></p>
   </div>
+
+<div id="features" class="yd-features">
+
+    <div class="row py-5 py-lg-0">
+        <div class="col-12 col-lg-6 py-lg-5 pr-lg-5 mb-3 mb-lg-0">
+            <img src="https://picsum.photos/seed/hhr/600/400" alt="" class="img-fluid shadow">
+          </div>
+          <div class="col-12 col-lg-6 py-lg-5 pl-lg-5 d-flex align-items-center">
+            <div>
+                <h2>Discover new customers with parker landing.</h2>
+                <p>We’ll deliver the best stories and ideas on the topics you care about most straight to your
+                homepage, app, or inbox. </p>
+            <a href="#" class="wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">Learn more</a>
+            </div>
+          </div>
+    </div>
+    <div class="row py-5 py-lg-0">
+        <div class="col-12 col-lg-6 py-lg-5 pl-lg-5 order-lg-2 mb-3 mb-lg-0">
+            <img src="https://picsum.photos/seed/ref/600/400" alt="" class="img-fluid shadow">
+          </div>
+        <div class="col-12 col-lg-6 py-lg-5 pr-lg-5 d-flex align-items-center order-lg-1">
+            <div>
+              <h2>Better page design for seamless user experience.</h2>
+                <p>We’ll deliver the best stories and ideas on the topics you care about most straight to your
+                homepage, app, or inbox. </p>
+            <a href="#" class="wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">Learn More</a>
+            </div>
+          </div>
+    </div>
+
+
+</div>
+
 {% endblock %}

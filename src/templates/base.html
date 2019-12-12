@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %}>
+<html lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %} class="vh-100">
 {% load pages_tags mezzanine_tags i18n staticfiles %}
 
 <head>
@@ -8,7 +8,7 @@
 <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
 <meta name="description" content="{% block meta_description %}{% endblock %}">
 <title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}</title>
-<link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+<link rel="shortcut icon" href='{% static "img/favicon.ico" %}'>
 
 {% ifinstalled mezzanine.blog %}
 <link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
@@ -16,24 +16,24 @@
 {% endifinstalled %}
 
 {% compress css %}
-<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
-<link rel="stylesheet" href="{% static "css/style.css" %}">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" href='{% static "css/style.css" %}'>
 {% if LANGUAGE_BIDI %}
-<link rel="stylesheet" href="{% static "css/bootstrap-rtl.css" %}">
+<link rel="stylesheet" href='{% static "css/bootstrap-rtl.css" %}'>
 {% endif %}
 {% ifinstalled cartridge.shop %}
-<link rel="stylesheet" href="{% static "css/cartridge.css" %}">
+<link rel="stylesheet" href='{% static "css/cartridge.css" %}'>
 {% if LANGUAGE_BIDI %}
-<link rel="stylesheet" href="{% static "css/cartridge.rtl.css" %}">
+<link rel="stylesheet" href='{% static "css/cartridge.rtl.css" %}'>
 {% endif %}
 {% endifinstalled %}
 {% block extra_css %}{% endblock %}
 {% endcompress %}
 
 {% compress js %}
-<script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
-<script src="{% static "js/bootstrap.js" %}"></script>
-<script src="{% static "js/bootstrap-extras.js" %}"></script>
+<script src='{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}'></script>
 {% block extra_js %}{% endblock %}
 {% endcompress %}
 
@@ -45,82 +45,135 @@
 {% block extra_head %}{% endblock %}
 </head>
 
-<body id="{% block body_id %}body{% endblock %}">
+<body id="{% block body_id %}body{% endblock %}" class="vh-100">
+
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-3 px-sm-0 px-lg-0 px-xl-5">
   <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">{% trans "Toggle Navigation" %}</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a href="#" class="navbar-left"><img src="{% static "images/hhr_logo.png" %}"></a>
-    </div>
-    <div class="navbar-collapse collapse">
-        {% block navbar_search_form %}{% search_form "all" %}{% endblock %}
-        {% block navbar_dropdown_menu %}{% page_menu "pages/menus/dropdown.html" %}{% endblock%}
+
+      <a class="navbar-brand" href="/">
+        <img src='{% static "images/hhr_logo.png" %}' height="30" alt="Hearts and Homes for Refugees">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+          {% block navbar_dropdown_menu %}{% page_menu "pages/menus/dropdown.html" %}{% endblock%}
+          {% comment %}
+            TODO: {% block navbar_search_form %}{% search_form "all" %}{% endblock %}
+          {% endcomment %}
     </div>
   </div>
-</div>
+</nav>
 
 <div class="container">
+  {% nevercache %}
+    {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+      <div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endnevercache %}
+</div>
 
-{% nevercache %}
-{% if messages %}
-<div class="messages">
-{% for message in messages %}
-<div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    {{ message }}
-</div>
-{% endfor %}
-</div>
+{% if on_home %}
+<header class="home-cover position-relative py-5" style='background-image: url( {% static "images/bg@2x.png" %} ); background-size:cover; background-position:center right;'>
+  <div class="container py-5">
+    <div class="row py-5">
+      <div class="col-sm-12 col-lg-5">
+        <div class="intro-block text-white">
+          <h1 class="text-white">You, too, can stand up for refugees.</h1>
+          <p>At Hearts and Homes for Refugees, we are committed to help, offering refugees hope and opportunity. You, too, can stand up for refugees. </p>
+        </div>
+        <a href="#" class="bg-white w-100 p-3 rounded shadow d-flex justify-content-between align-items-center">
+          <div class="ml-2">
+              <h2 class="h5">Help us grow</h2>
+              <p class="m-0 p-0">Donate now</p>
+          </div>
+          <i class="fas fa-angle-right fa-3x text-primary"></i>
+        </a>
+      </a>
+    </div>
+
+  </div>
+  </header>
 {% endif %}
-{% endnevercache %}
-
-<h1>{% block title %}{% endblock %}</h1>
-
-</div>
-
 
 {% block container %}
-  <div class="container" id="content" tabindex="-1">
+  <div class="container py-4" id="content" tabindex="-1">
+      {% if on_home != None %}
+      <div class="row mb-4">
+        <div class="col">
+          <h1 class="display-4">{% block title %}{% endblock %}</h1>
+      </div>
+    </div>
+      {% endif %}
     <div class="row">
-      <div class=".col-md-offset-3 col-md-6">
+      <div class="col-12">
         {% block main %}{% endblock %}
       </div>
-      {% comment %}
-      <div class="col-md-4 right">
-        {% nevercache %}
-          {% include "includes/language_selector.html" %}
-          {% include "includes/user_panel.html" %}
-        {% endnevercache %}
-        {% ifinstalled mezzanine.twitter %}
-          <div class="panel panel-default">
-            <div class="panel-body">
-              {% block right_panel %}
-                {% include "twitter/tweets.html" %}
-              {% endblock %}
-            </div>
-        </div>
-      {% endifinstalled %}
-      </div>
-      {% endcomment %}
     </div>
   </div>
 {% endblock %}
 
 <footer>
-  <div class="container">
-    {% page_menu "pages/menus/footer.html" %}
-  </div>
+<div id="footer-section_1" class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4">
+              <img src="{% static 'images/hhr_logo.png' %}" height="30" alt="Hearts and Homes for Refugees">
+              <div class="disclaimer py-2">
+                <p>
+                  <small>Hearts and Homes for Refugees is a 501(c)(3) not-for-profit organization. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo.</small>
+                </p>
+                <div>
+                  
+                </div>
+              </div>
+      
+            </div>
+            <div class="col-12 col-md-8">
+              {% page_menu "pages/menus/footer.html" %}
+            </div>
+          </div>
+    </div>
+</div>
+<div id="footer-section_2" class="bg-white">
+    <div class="container">
+        <div class="row py-3">
+            <div class="col-12 col-md-6">
+              <p id="copyright" class="m-0 p-0">
+                <small>Copyright © Hearts and Homes for Refugees, 2019</small>
+              </p>
+            </div>
+            <div class="col-12 col-md-6 d-flex justify-content-end align-items-center">
+              <p class="m-0 p-0 mr-2">Get in touch: </p>
+              <div id="copyright d-flex flex-row ">
+                <a href="https://www.facebook.com/groups/183941842002868/"><i class="fab fa-facebook fa-lg mx-2 text-primary"></i></a>
+                <a href="https://twitter.com/HHRefugees"><i class="fab fa-twitter fa-lg mx-2 text-primary"></i></a>
+                <a href="#"><i class="fab fa-instagram fa-lg mx-2 text-primary"></i></a>
+              </div>
+            </div>
+  
+          </div>
+    </div>
+</div>
+
 </footer>
 
 {% block footer_js %}
 {% include "includes/footer_scripts.html" %}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/a39ff0ec88.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 {% endblock %}
 
 </body>
